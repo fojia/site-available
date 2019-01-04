@@ -13,8 +13,8 @@ func main() {
 	models.InitDB()
 	go api.Listen()
 
-	//Run checking available site once by minute
-	for t := range time.NewTicker(time.Minute).C {
+	//Run checking available site once by hour
+	for t := range time.NewTicker(time.Hour).C {
 		go startCheck(t)
 	}
 }
