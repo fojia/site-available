@@ -11,19 +11,45 @@ type JSON interface {
 }
 
 type Site struct {
-	id   int    `json:"id,omitempty"`
-	site string `json:"site,omitempty"`
+	id   int    `json:"id"`
+	site string `json:"site"`
+}
+
+type Information struct {
+	id     int    `json:"id"`
+	status int    `json:"status"`
+	date   string `json:"date"`
 }
 
 //Listen and wait queries
 func Listen() {
 	router := mux.NewRouter()
+	//Sites
 	router.HandleFunc("/api/sites", getSites).Methods("GET")
-	router.HandleFunc("/api/sites/create", createSite).Methods("POST")
 	router.HandleFunc("/api/sites/{id}", getSite).Methods("GET")
+	router.HandleFunc("/api/sites/create", createSite).Methods("POST")
 	router.HandleFunc("/api/sites/{id}", deleteSite).Methods("DELETE")
 
+	router.HandleFunc("/api/informaitons/site/{siteId}", getAllInformations).Methods("GET")
+	router.HandleFunc("/api/informaitons/site/{siteId}", addInformation).Methods("POST")
+	router.HandleFunc("/api/informaitons/{Id}", getInformations).Methods("GET")
+
 	http.ListenAndServe(":8080", router)
+}
+
+//Get inforations by id
+func getInformations(w http.ResponseWriter, r *http.Request) {
+
+}
+
+//Add information by siteId
+func addInformation(w http.ResponseWriter, r *http.Request) {
+
+}
+
+//Get inforations by siteId
+func getAllInformations(w http.ResponseWriter, r *http.Request) {
+
 }
 
 //Get all sites

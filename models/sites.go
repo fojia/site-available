@@ -7,10 +7,6 @@ type Site struct {
 	MetaDescription string
 	MetaKeywords    string
 }
-type Information struct {
-	SiteId int
-	Status int
-}
 
 //Get sites from database for checking
 func GetSites() ([]*Site) {
@@ -39,13 +35,6 @@ func GetSite(Id string) (*Site) {
 	CheckErr(err)
 
 	return site
-}
-
-//Add information to databse
-func AddInformation(information *Information) {
-	_, err := DB.Exec("INSERT INTO `informations` (`site_id`, `status`) VALUES (?,?)", information.SiteId, information.Status)
-	CheckErr(err)
-
 }
 
 //Add site
