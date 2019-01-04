@@ -27,11 +27,10 @@ func Listen() {
 	//Sites
 	router.HandleFunc("/api/sites", getSites).Methods("GET")
 	router.HandleFunc("/api/sites/{id}", getSite).Methods("GET")
-	router.HandleFunc("/api/sites/create", createSite).Methods("POST")
+	router.HandleFunc("/api/sites", createSite).Methods("POST")
 	router.HandleFunc("/api/sites/{id}", deleteSite).Methods("DELETE")
 
-	router.HandleFunc("/api/informaitons/site/{siteId}", getAllInformations).Methods("GET")
-	router.HandleFunc("/api/informaitons/site/{siteId}", addInformation).Methods("POST")
+	router.HandleFunc("/api/informaitons", addInformation).Methods("POST")
 	router.HandleFunc("/api/informaitons/{Id}", getInformations).Methods("GET")
 
 	http.ListenAndServe(":8080", router)
@@ -44,11 +43,6 @@ func getInformations(w http.ResponseWriter, r *http.Request) {
 
 //Add information by siteId
 func addInformation(w http.ResponseWriter, r *http.Request) {
-
-}
-
-//Get inforations by siteId
-func getAllInformations(w http.ResponseWriter, r *http.Request) {
 
 }
 
