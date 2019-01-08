@@ -1,6 +1,11 @@
 package models
 
-import "strconv"
+import (
+	"encoding/json"
+	"net/http"
+	"site-available/api"
+	"strconv"
+)
 
 //Convert string to int
 func StringtoInt(str string) int {
@@ -28,4 +33,13 @@ func StringtoInt64(str string) int64 {
 	value, err := strconv.ParseInt(str, 10, 64)
 	CheckErr(err)
 	return int64(value)
+}
+
+//Response error with 404 status
+func ResponseError(w http.ResponseWriter, body api.JSON) {
+	json, err := json.Marshal(body)
+	CheckErr(err)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(404)
+	w.Write(json)
 }
