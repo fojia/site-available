@@ -15,7 +15,7 @@ func AddInformation(information *Information) {
 
 //Get all rows with informations
 func GetAllInformations(siteId int) []*Information {
-	rows, err := DB.Query("SELECT `id`, `site_id`, `status` FROM `informations` ORDER BY `created_at` DESC")
+	rows, err := DB.Query("SELECT `id`, `site_id`, `status` FROM `informations` WHERE `site_id`=? ORDER BY `created_at` DESC", siteId)
 	CheckErr(err)
 	infos := make([]*Information, 0)
 
@@ -25,7 +25,7 @@ func GetAllInformations(siteId int) []*Information {
 		CheckErr(err)
 		infos = append(infos, info)
 	}
-
+	
 	return infos
 }
 

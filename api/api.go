@@ -10,17 +10,6 @@ import (
 type JSON interface {
 }
 
-type Site struct {
-	id   int    `json:"id"`
-	site string `json:"site"`
-}
-
-type Information struct {
-	id     int    `json:"id"`
-	status int    `json:"status"`
-	date   string `json:"date"`
-}
-
 //Listen and wait queries
 func Listen() {
 	router := mux.NewRouter()
@@ -30,20 +19,20 @@ func Listen() {
 	router.HandleFunc("/api/sites", createSite).Methods("POST")
 	router.HandleFunc("/api/sites/{id}", deleteSite).Methods("DELETE")
 
-	router.HandleFunc("/api/informaitons", addInformation).Methods("POST")
-	router.HandleFunc("/api/informaitons/{Id}", getInformations).Methods("GET")
+	router.HandleFunc("/api/informaitons/{siteId}", getInformations).Methods("GET")
 
 	http.ListenAndServe(":8080", router)
 }
 
 //Get inforations by id
 func getInformations(w http.ResponseWriter, r *http.Request) {
+	var infos []JSON
+	params := mux.Vars(r)
 
-}
-
-//Add information by siteId
-func addInformation(w http.ResponseWriter, r *http.Request) {
-
+	for _, value := range models.GetAllInformations(models.StringtoInt(params["siteId"])) {
+		infos = append(infos, value)
+	}
+	responseJSON(w, infos)
 }
 
 //Get all sites
@@ -65,12 +54,16 @@ func getSite(w http.ResponseWriter, r *http.Request) {
 
 //Delete site
 func deleteSite(w http.ResponseWriter, r *http.Request) {
-
+	params := mux.Vars(r)
+	models.DeleteSite(models.StringtoInt(params["id"]))
 }
 
 //Add site
 func createSite(w http.ResponseWriter, r *http.Request) {
 
+	site := new(models.Site)
+	site.Site = r.FormValue("site")
+	models.AddSite(site)
 }
 
 //Output json
