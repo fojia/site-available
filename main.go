@@ -9,9 +9,16 @@ import (
 	"time"
 )
 
+//Listen frontend part
+func serve() {
+	http.Handle("/", http.FileServer(http.Dir("public/")))
+	http.ListenAndServe(":3001", nil)
+}
+
 func main() {
 	models.InitDB()
 	go api.Listen()
+	go serve()
 
 	//Run checking available site once by hour
 	for t := range time.NewTicker(time.Hour).C {
@@ -27,8 +34,6 @@ func startCheck(t time.Time) {
 	}
 }
 
-
-
 //Check site status and in future parse meta information
 func checkSite(site *models.Site) {
 	response, err := http.Get(site.Site)
@@ -39,7 +44,3 @@ func checkSite(site *models.Site) {
 	info.Status = response.StatusCode
 	models.AddInformation(info)
 }
-
-
-
-

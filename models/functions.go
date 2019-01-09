@@ -1,9 +1,6 @@
 package models
 
 import (
-	"encoding/json"
-	"net/http"
-	"site-available/api"
 	"strconv"
 )
 
@@ -35,11 +32,3 @@ func StringtoInt64(str string) int64 {
 	return int64(value)
 }
 
-//Response error with 404 status
-func ResponseError(w http.ResponseWriter, body api.JSON) {
-	json, err := json.Marshal(body)
-	CheckErr(err)
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(404)
-	w.Write(json)
-}

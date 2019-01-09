@@ -20,7 +20,6 @@ func Listen() {
 	router.HandleFunc("/api/sites/{id}", deleteSite).Methods("DELETE")
 
 	router.HandleFunc("/api/informaitons/{siteId}", getInformations).Methods("GET")
-
 	http.ListenAndServe(":8080", router)
 }
 
@@ -71,5 +70,14 @@ func responseJSON(w http.ResponseWriter, body JSON) {
 	json, err := json.Marshal(body)
 	models.CheckErr(err)
 	w.Header().Set("Content-Type", "application/json")
+	w.Write(json)
+}
+
+//Response error with 404 status
+func ResponseError(w http.ResponseWriter, body JSON) {
+	json, err := json.Marshal(body)
+	models.CheckErr(err)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(404)
 	w.Write(json)
 }
